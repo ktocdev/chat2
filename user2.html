@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+  <title>Pusher Test</title>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1>chat test</h1>
+  <div class="container">
+    <div class="user-screen">
+      <h2>welcome user2</h2>
+      <div class="form-container join">
+        <hr>
+        <p>User1 has invited you to chat. Join?</p>
+        <input type="button" value="Join" class="join-btn" />
+        <input type="button" value="Reject" class="reject-btn" />
+      </div>
+      <form class="form-container message-form">
+        <input type="text" value="Type message" class="message-input" />
+        <input type="button" value="Send" class="send-btn" id="user2" />
+      </form>
+    </div>
+    <div class="chat-screen">
+      <div class="chats">
+        <h3>Chatroom</h3>
+        <hr>
+        <div class="form-container chat-area">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+  <script src="http://js.pusher.com/2.1/pusher.min.js" type="text/javascript"></script>
+  <script src="script.js" type="text/javascript"></script>
+</body>
+</html>

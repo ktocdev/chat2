@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<head>
+  <title>Pusher Test</title>
+  <style type='text/css'>
+    *{
+      box-sizing: border-box;
+    }
+    body{
+      font-family: "Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace;
+      color: #545454;
+      margin: 20px auto;
+      width: 900px;
+    }
+    h2{
+      color: #888;
+    }
+    h3{
+      color: #aaa;
+    }
+    hr{
+      color: #eee;
+    }
+    .user-screen{
+      float: left;
+      width: 40%;
+      border: 1px solid #ccc;
+      margin-right: 30px;
+      padding: 10px;
+    }
+    .chat-screen{
+      clear: both;
+      float: left;
+      margin: 20px 0 0;
+      width: 100%;
+    }
+    .chat-status p,
+    .light{
+      color: #9c9c9c;
+    }
+    .message-status,
+    .user-list,
+    .chats{
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .form-container{
+      margin: 10px 0 0;
+    }
+    .join,
+    .reject,
+    .message-form,
+    .chat-screen{
+      display: none;
+    }
+    .join p{
+      color: #3D8B37;
+    }
+    .message-form input[type='text']{
+      width: 63%;
+    }
+    .message-form input[type='button']{
+      width: 33%;
+    }
+    .chat-status p.chat-on{
+      color: #3D8B37;
+    }
+    .reject{
+      float: left;
+    }
+    .reject p{
+      color: #F2473F;
+      float: left;
+      width: 70%;
+      margin-bottom: 0;
+    }
+    .close-btn{
+      margin: 20px 0 0;
+      float: right;
+      cursor: pointer;
+    }
+  </style>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+  <script src="http://js.pusher.com/2.1/pusher.min.js" type="text/javascript"></script>
+</head>
+<body>
+<h1>chat test</h1>
+  <div class="container">
+    <div class="user-screen">
+      <h2>user1</h2>
+      <div class="form-container invite">
+        <input class="chat-btn" type="button" value="Chat with user2" />
+      </div>
+      <div class="form-container reject">
+        <p>Sorry, User2 rejected your invite.</p> <div class="close-btn">X</div>
+      </div>
+      <div class="form-container message-form">
+        <input type="text" value="Type message" class="message-input" />
+        <input type="button" value="Send" class="send-btn" id="user1" />
+      </div>
+    </div>
+    <div class="user-screen">
+      <h2>user2</h2>
+      <div class="form-container join">
+        <hr>
+        <p>User1 has invited you to chat. Join?</p>
+        <input type="button" value="Join" class="join-btn" />
+        <input type="button" value="Reject" class="reject-btn" />
+      </div>
+      <div class="form-container message-form">
+        <input type="text" value="Type message" class="message-input" />
+        <input type="button" value="Send" class="send-btn" id="user2" />
+      </div>
+    </div>
+    <div class="chat-screen">
+      <div class="chats">
+        <h3>Chatroom</h3>
+        <hr>
+        <div class="form-container chat-area">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    $('.close-btn').click(function(){
+      $(this).parent().hide();
+      $('.invite').show();
+    })
+
+    $('.chat-btn').click(function() {
+      $('.join').show();
+    });
+
+    $('.reject-btn').click(function() {
+      $('.join').hide();
+      $('.invite').hide();
+      $('.reject').show();
+    });
+
+    $('.join-btn').click(function() {
+
+      $('.join').hide();
+
+      pusher = new Pusher('b1315db8f3b8f87e7717');
+      privatechannel = pusher.subscribe('private-chat-channel');
+      var $chatBtn = $(this),
+      time = new Date(),
+      timeString;
+
+      time.setDate(time.getDate());
+      timeString = ('0' + time.getHours()).slice(-2) + ':' + ('0' + (time.getMinutes())).slice(-2) + ':' + ('0' + (time.getSeconds())).slice(-2)  +'.';
+
+      pusher.connection.bind('connected',function() {
+
+        privatechannel.bind('console_data', function(data) {
+          alert(data);
+        });
+
+
+
+        $('.chat-btn').hide();
+        $('.chat-screen').show();
+        $('.message-form').show();
+
+        $('.chat-area p').text('Chat started at ' + timeString).addClass('chat-on');
+
+      });
+
+      $('.send-btn').click( function(){
+        var msg = $(this).siblings('.message-input').val(),
+            username = $(this).attr('id');
+
+        privatechannel.trigger('client-send-message', {username: username, message: msg});
+
+      });
+
+      privatechannel.bind('client-send-message',
+        function(data) {
+          console.log(data.username)
+        }
+      );
+
+    });
+
+  </script>
+</body>
+</html>

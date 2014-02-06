@@ -1,0 +1,76 @@
+*{
+  box-sizing: border-box;
+}
+body{
+  font-family: "Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace;
+  color: #545454;
+  margin: 20px auto;
+  width: 600px;
+}
+h2{
+  color: #888;
+}
+h3{
+  color: #aaa;
+}
+hr{
+  color: #eee;
+}
+.user-screen{
+  float: left;
+  width: 600px;
+  border: 1px solid #ccc;
+  margin-right: 30px;
+  padding: 10px;
+}
+.chat-screen{
+  clear: both;
+  float: left;
+  margin: 20px 0 0;
+  width: 100%;
+}
+.chat-status p,
+.light{
+  color: #9c9c9c;
+}
+.message-status,
+.user-list,
+.chats{
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.form-container{
+  margin: 10px 0 0;
+}
+.join,
+.reject,
+.message-form,
+.chat-screen{
+  display: none;
+}
+.join p{
+  color: #3D8B37;
+}
+.message-form input[type='text']{
+  width: 63%;
+}
+.message-form input[type='button']{
+  width: 33%;
+}
+.chat-status p.chat-on{
+  color: #3D8B37;
+}
+.reject{
+  float: left;
+}
+.reject p{
+  color: #F2473F;
+  float: left;
+  width: 70%;
+  margin-bottom: 0;
+}
+.close-btn{
+  margin: 20px 0 0;
+  float: right;
+  cursor: pointer;
+}
