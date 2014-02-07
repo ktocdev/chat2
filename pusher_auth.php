@@ -25,9 +25,9 @@ $pusher = new Pusher(
 );
 
 //Any data you want to send about the person who is subscribing
-//$presence_data = array(
-//   'username' => $_SESSION['username']
-//);
+$presence_data = array(
+   'username' => $_SESSION['username']
+);
 
 echo $pusher->presence_auth(
    $channel_name, //the name of the channel the user is subscribing to
